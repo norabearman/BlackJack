@@ -1,5 +1,17 @@
 # Black Jack game by Julius Osagiede 
 
+# Methods
+
+
+
+def initialize SlowText(Statement)
+
+end
+
+
+
+
+
 # Makes deck
 card_type = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
 card_suit = ["Hearts", "Spades", "Clubs", "Diamonds"]
@@ -58,8 +70,8 @@ end
 end
 
 # Gives all face cards (J,Q,K) values of 10
-@deck[32..47].each do |face_card|
-	face_card.push(10)
+@deck[32..47].each do |faceCard|
+	faceCard.push(10)
 end
 
 
@@ -89,6 +101,29 @@ sleep 0.050
 print letter }
 puts
 puts "Please enter Yes or No"
+
+userInput = gets.chomp.to_s
+
+if userInput != "Yes" || "No"
+	until userInput == "Yes" || "No"
+		puts 
+		puts "Error: I don't understand the input"
+		puts "Please enter 'Yes' or 'No'"
+	end
+end
+
+case userInput
+when "Yes"
+	nil
+when "No"
+	"Have a good one!".each_char { |letter|
+		sleep 0.050
+		print letter
+	}
+	abort
+end
+	
+	
 
 
 
