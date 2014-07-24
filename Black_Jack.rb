@@ -1,16 +1,13 @@
 # Black Jack game by Julius Osagiede 
 
 # Methods
-
-
-
-def initialize SlowText(Statement)
-
+# Slows down text
+def slowText(statement)
+	statement.each_char { |letter|
+		sleep 0.050
+		print letter
+	}
 end
-
-
-
-
 
 # Makes deck
 card_type = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
@@ -86,43 +83,22 @@ def card_indexes
 end
 
 # Greeting text 
-%(
+welcomeBlackJack= %(
 #{print "Welcome to".rjust(103)}
 	 -------------------	
 	| B l a c k j a c k |
 	 -------------------	
-).each_char { |letter| 
-sleep 0.050
-print letter
-}
+)
+
+slowText(welcomeBlackJack)
 puts
-"Welcome to Blackjack, would you like to play?".each_char { |letter| 	
-sleep 0.050
-print letter }
+
+welcomeBlackJack = "Welcome to Blackjack, would you like to play?"
+slowText(welcomeBlackJack)
 puts
-puts "Please enter Yes or No"
+print "Please enter Yes or No: "
+userInput = gets.chomp
 
-userInput = gets.chomp.to_s
-
-if userInput != "Yes" || "No"
-	until userInput == "Yes" || "No"
-		puts 
-		puts "Error: I don't understand the input"
-		puts "Please enter 'Yes' or 'No'"
-	end
-end
-
-case userInput
-when "Yes"
-	nil
-when "No"
-	"Have a good one!".each_char { |letter|
-		sleep 0.050
-		print letter
-	}
-	abort
-end
-	
 	
 
 
