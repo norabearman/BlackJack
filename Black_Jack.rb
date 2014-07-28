@@ -1,13 +1,36 @@
 # Black Jack game by Julius Osagiede 
 
-# Methods
-# Slows down text
-def slowText(statement)
-	statement.each_char { |letter|
-		sleep 0.050
-		print letter
-	}
-end
+#=================================================================================#
+#=================================== METHODS =====================================# 
+#=================================== vvvvvvv =====================================#
+#=================================================================================#
+
+		# Method that slows down text
+		def slowText(statement)
+			statement.each_char { |letter|
+				sleep 0.050
+				print letter
+			}
+			puts 
+		end
+
+		# Method that puts index of each deck array object starting at 1
+		def cardIndexes
+			@counter = 0
+			@deck.each do |card|
+				@counter += 1
+				puts @counter.to_s + " - " + card.to_s 
+				puts
+			end
+		end
+
+		def howToPlayBlackJack
+
+		end
+#=================================================================================#
+#=================================== ^^^^^^^ =====================================#
+#=================================== METHODS =====================================# 
+#=================================================================================#
 
 # Makes deck
 card_type = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
@@ -72,33 +95,47 @@ end
 end
 
 
-# Method that puts index of each deck array object starting at 1
-@counter = 0
-def card_indexes
-	@deck.each do |card|
-		@counter += 1
-		puts @counter.to_s + " - " + card.to_s 
-		puts
-	end
-end
-
 # Greeting text 
 welcomeBlackJack= %(
-#{print "Welcome to".rjust(103)}
+
 	 -------------------	
 	| B l a c k j a c k |
 	 -------------------	
 )
 
 slowText(welcomeBlackJack)
+
+slowText("Welcome to Blackjack, would you like to play?")
+print "Please enter Yes or No: "
+userInput = gets.chomp.capitalize
 puts
 
-welcomeBlackJack = "Welcome to Blackjack, would you like to play?"
-slowText(welcomeBlackJack)
-puts
+if (userInput != "Yes") && userInput != "No"
+	until (userInput == "Yes") || userInput == "No"
+		puts
+		puts "Error: Unknown Command"
+		print "Please enter in \"Yes\" or \"No\": "
+		userInput = gets.chomp
+	end
+	puts
+end
+
+if userInput == "Yes"
+	slowText("Progress?")
+elsif userInput == "No"
+	slowText("Have a good one!")
+	abort
+end
+
+puts "Do you know how to play Blackjack?"
 print "Please enter Yes or No: "
 userInput = gets.chomp
 
+if userInput.capitalize == "Yes"
+	slowText("Progress?")
+elsif userInput.capitalize == "No"
+	# METHOD GOES HERE!!!!
+end
 	
 
 
