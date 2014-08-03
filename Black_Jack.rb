@@ -14,7 +14,8 @@
 			puts 
 		end
 
-		# Method that puts index of each deck array object starting at 1
+
+		# Method that outputs the index of each deck array object starting at 1
 		def cardIndexes
 			@counter = 0
 			@deck.each do |card|
@@ -24,7 +25,27 @@
 			end
 		end
 
+
+		# Method that outputs information text
 		def howToPlayBlackJack
+			@understand = false
+			help = %(
+     	 ------------------------------ 			
+	|  --------------------------  | 
+	| | For Hit: Type in 'Hit'   | |
+	| | For Stay: Type in 'Stay' | |
+	| | For Help: Type in 'Help' | | 
+	|  --------------------------  | 
+	 ------------------------------
+ 		)
+
+		puts
+		while @understand == false
+			print "Please type in \"Quit\" to Quit: "
+			userInput = gets.chomp
+			puts
+			@understand = true if userInput.capitalize == "Quit"
+		end
 
 		end
 #=================================================================================#
@@ -96,7 +117,7 @@ end
 
 
 # Greeting text 
-welcomeBlackJack= %(
+welcomeBlackJack = %(
 
 	 -------------------	
 	| B l a c k j a c k |
@@ -122,6 +143,7 @@ end
 
 if userInput == "Yes"
 	slowText("Progress?")
+	puts
 elsif userInput == "No"
 	slowText("Have a good one!")
 	abort
@@ -134,46 +156,12 @@ userInput = gets.chomp
 if userInput.capitalize == "Yes"
 	slowText("Progress?")
 elsif userInput.capitalize == "No"
-	# METHOD GOES HERE!!!!
+	howToPlayBlackJack
 end
 	
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @deck[32..47].each { |card| puts card.inspect}
-
-
-
-
-
-
-
-=begin
-puts cards_with_value_of_10
-puts 
-puts @deck
-=end
 
 
 
