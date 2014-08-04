@@ -5,7 +5,7 @@
 #=================================== vvvvvvv =====================================#
 #=================================================================================#
 
-		# Method that slows down text
+		# Method that slows down text by 1/20 of a second
 		def slowText(statement)
 			statement.each_char { |letter|
 				sleep 0.050
@@ -13,7 +13,7 @@
 			}
 			puts 
 		end
-
+		
 
 		# Method that outputs the index of each deck array object starting at 1
 		def cardIndexes
@@ -21,7 +21,6 @@
 			@deck.each do |card|
 				@counter += 1
 				puts @counter.to_s + " - " + card.to_s 
-				puts
 			end
 		end
 
@@ -38,14 +37,16 @@
 	|  --------------------------  | 
 	 ------------------------------
  		)
-
+		puts help
 		puts
+
 		while @understand == false
 			print "Please type in \"Quit\" to Quit: "
 			userInput = gets.chomp
 			puts
-			@understand = true if userInput.capitalize == "Quit"
+			@understand = true if userInput == "Quit"
 		end
+
 
 		end
 #=================================================================================#
@@ -128,7 +129,7 @@ slowText(welcomeBlackJack)
 
 slowText("Welcome to Blackjack, would you like to play?")
 print "Please enter Yes or No: "
-userInput = gets.chomp.capitalize
+userInput = gets.chomp
 puts
 
 if (userInput != "Yes") && userInput != "No"
@@ -141,27 +142,75 @@ if (userInput != "Yes") && userInput != "No"
 	puts
 end
 
-if userInput == "Yes"
-	slowText("Progress?")
+case userInput
+when  "Yes"
+	slowText("Progress")
 	puts
-elsif userInput == "No"
+when "No"
 	slowText("Have a good one!")
 	abort
 end
+
 
 puts "Do you know how to play Blackjack?"
 print "Please enter Yes or No: "
 userInput = gets.chomp
 
-if userInput.capitalize == "Yes"
-	slowText("Progress?")
-elsif userInput.capitalize == "No"
+while userInput != "Yes" && userInput != "No"
+	puts 
+	print "Please enter \"Yes\" or \"No\": "
+	userInput = gets.chomp
+end
+
+case userInput
+when "Yes"
+	slowText("Progress?") # Replace
+when "No"
 	howToPlayBlackJack
 end
 	
+puts
+puts "Have fun and good luck!"
+slowText("Dealing cards.......")
 
 
 
+@deck.shuffle! 
+@userPoints = 0
+@userCards = []
+
+2.times do
+	dealtCard = @deck.first
+	@userCards << dealtCard
+	@deck.shift
+end
+puts @userCards.inspect #remove when neccesary
+@userPoints += @userCards[0][2] + @userCards[1][2]
+puts "Your points is " + @userPoints.to_s 
+
+puts #remove
+puts #remove when you want 
+
+
+puts "Your cards:"
+puts " ------------------------ "
+@userCards.each do |card|
+	lengthOfString = "#{card[0]} of #{card[1]}".length
+	puts "|" + "#{card[0]} of #{card[1]}" + "|".rjust(25 - lengthOfString)
+end
+puts " ------------------------ "
 
 
 
+=begin
+print "What are you going to go?: "
+userChoice = gets.chomp
+
+if userChoice = 
+=end
+
+
+# use case when menu?
+# when userInput
+# case "A","B"
+# end
