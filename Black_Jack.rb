@@ -47,7 +47,6 @@
 			@understand = true if userInput == "Quit"
 		end
 
-
 		end
 #=================================================================================#
 #=================================== ^^^^^^^ =====================================#
@@ -181,24 +180,90 @@ slowText("Dealing cards.......")
 
 2.times do
 	dealtCard = @deck.first
+
+	if dealtCard.size == 4
+		puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
+		print "What value would you like to make it? Enter in 1 or 11: "
+		userInput = gets.chomp
+		if userInput == "1"
+			dealtCard.delete(11) 
+		else
+			dealtCard.delete(1)
+		end
+	end
+	@userPoints += dealtCard[2]
 	@userCards << dealtCard
 	@deck.shift
+	
+end	
+
+loop do
+	print "What would you like to do?: "
+	userInput = gets.chomp
+
+	until userInput == "Hit" || userInput == "Stay"
+		puts
+		print "Please enter \"Hit\" or \"Stay\": "
+		userInput = gets.chomp
+	end 
+
+	if userInput == "Hit"
+		dealtCard = @deck.first
+
+		if dealtCard.size == 4
+			puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
+			print "What value would you like to make it? Enter in 1 or 11: "
+			userInput = gets.chomp
+			if userInput == "1"
+				dealtCard.delete(11) 
+			else
+				dealtCard.delete(1)
+			end
+
+		end
+
+		@userPoints += dealtCard[2]					#experimental line
+		@userCards << dealtCard
+		@deck.shift
+		puts "Your cards:"
+		puts " ------------------------ " #IDEA!: Below put user points, make box beneath(under)
+		@userCards.each do |card|
+			lengthOfString = "#{card[0]} of #{card[1]}".length
+			puts "|" + "#{card[0]} of #{card[1]}" + "|".rjust(25 - lengthOfString)
+		end
+		puts " ------------------------ "
+	else
+		break if userInput == "Stay"
+	end
 end
+
+
+=begin
+firstCard = @userCards[0][2]
+secondCard = @userCards[1][2]
+@userPoints +=  firstCard + secondCard
+=end
+
+
 puts @userCards.inspect #remove when neccesary
-@userPoints += @userCards[0][2] + @userCards[1][2]
 puts "Your points is " + @userPoints.to_s 
 
 puts #remove
 puts #remove when you want 
 
 
-puts "Your cards:"
-puts " ------------------------ "
-@userCards.each do |card|
-	lengthOfString = "#{card[0]} of #{card[1]}".length
-	puts "|" + "#{card[0]} of #{card[1]}" + "|".rjust(25 - lengthOfString)
-end
-puts " ------------------------ "
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
