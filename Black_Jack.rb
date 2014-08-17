@@ -50,26 +50,33 @@
 		end
 
 		def showUserCards # Displays user cards respectively
+			lengthUserPoints = "You:#{@userPoints}".length
 			puts "Your cards:"
 			puts " ------------------------ " #IDEA!: Below put user points, make box beneath(under)
+			puts "|" + "You:#{@userPoints}".rjust(15) + "|".rjust(16 - lengthUserPoints)
+			puts " ------------------------ "
 			@userCards.each do |card|
-				lengthOfString = "#{card[0]} of #{card[1]}".length
-				puts "|" + "#{card[0]} of #{card[1]}" + "|".rjust(25 - lengthOfString)
+				lengthOfCardName = "#{card[0]} of #{card[1]}".length
+				puts "|" + "#{card[0]} of #{card[1]}" + "|".rjust(25 - lengthOfCardName)
 			end
 			puts " ------------------------ "
 			puts
 		end
 
 		def showCPUOpponentCards # Use when game is over!!!! New Method
+			lengthOfCPUPoints = "CPU: #{@cpuOpponentPoints}".length
 			puts "Computer's cards:"
 			puts " ------------------------ " #IDEA!: Below put user points, make box beneath(under)
+			puts "|" + "CPU:#{@cpuOpponentPoints}".rjust(15) + "|".rjust(17 - lengthOfCPUPoints)
+			puts " ------------------------ "
 			@cpuOpponentCards.each do |card|
-				lengthOfString = "#{card[0]} of #{card[1]}".length
-				puts "|" + "#{card[0]} of #{card[1]}" + "|".rjust(25 - lengthOfString)
+				lengthOfCardName = "#{card[0]} of #{card[1]}".length
+				puts "|" + "#{card[0]} of #{card[1]}" + "|".rjust(25 - lengthOfCardName)
 			end
 			puts " ------------------------ "
 			puts
 		end
+		
 #=================================================================================#
 #=================================== ^^^^^^^ =====================================#
 #=================================== METHODS =====================================# 
@@ -186,7 +193,7 @@ end
 case userInput
 when "Yes"
 	puts
-	slowText("Progress 100%") # Replace
+	slowText("Progress 100%") 
 	puts
 when "No"
 	puts
@@ -199,20 +206,110 @@ puts "Have fun and good luck!"
 slowText("Dealing cards.......")
 puts
 
+
+
 @deck.shuffle! 
 @blackJack = %(
-		  	    -----------------
-		  	   | ~~~~~~~~~~~~~~~ |
-			   | ~~~~~~~~~~~~~~~ |
-			   | ~~~BLACKJACK~~~ |
-			   | ~~~~~~~~~~~~~~~ |	
-			   | ~~~~~~~~~~~~~~~ |
-			    -----------------	
+		  	    -----------
+		  	   | Blackjack |
+		  	    -----------
 			  )
 
 @cpuOpponentPoints = 0
 @cpuOpponentCards = []
 
+@userPoints = 0
+@userCards = []
+
+2.times do
+	dealtCard = @deck.first 
+
+	if dealtCard.size == 4
+		if @cpuOpponentPoints + dealtCard[3] <= 21
+			@cpuOpponentPoints += dealtCard[3]
+			@cpuOpponentCards << dealtCard
+			@deck.shift
+		else @cpuOpponentPoints + dealtCard[2] <= 21
+			@cpuOpponentPoints += dealtCard[2]
+			@cpuOpponentCards << dealtCard
+			@deck.shift
+		end
+	end
+
+	@cpuOpponentPoints += dealtCard[2]
+	@cpuOpponentCards << dealtCard
+	@deck.shift
+
+end
+
+
+2.times do
+	dealtCard = @deck.first
+	
+	if dealtCard.size == 4
+		showUserCards
+		puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
+		print "What value would you like to make it? Enter in 1 or 11: "
+		userInput = gets.chomp
+		puts
+
+		until userInput == "1" || userInput == "11"
+			puts
+			puts "Error: Unknown Command"
+			print "Please enter 1 or 11: "
+			userInput = gets.chomp
+		end
+
+		if userInput == "1"
+			dealtCard.delete(11) 
+		else
+			dealtCard.delete(1)
+		end
+	end
+
+	@userPoints += dealtCard[2]
+	@userCards << dealtCard
+	@deck.shift
+
+ 
+ 	if @cpuOpponentPoints == 21 && @userPoints  == 21		
+ 		slowText(@blackJack)
+		sleep 2.5
+		puts "It's a tie. How rare is this!!"
+		showCPUOpponentCards
+		showUserCards
+		abort
+	end
+
+	if @cpuOpponentPoints == 21 && @userPoints != 21
+		slowText(@blackJack)
+		sleep 2.5
+		puts "You lose! Good Game."
+		showCPUOpponentCards
+		showUserCards
+		abort
+	end
+
+	if @userPoints == 21 && @cpuOpponentPoints != 21
+		slowText(@blackJack)
+		sleep 2.5
+		puts "Congratulations! You win!"
+		showCPUOpponentCards
+		showUserCards
+		abort
+	end
+
+end
+
+
+
+
+
+
+
+
+
+=begin
 2.times do
 	dealtCard = @deck.first
 
@@ -269,12 +366,6 @@ end
 
 
 
-
-
-
-
-@userPoints = 0
-@userCards = []
 
 2.times do
 	dealtCard = @deck.first
@@ -438,13 +529,6 @@ loop do
 
 	end
 
-=begin
-	if userInput == "Stay"
-		break
-	else 
-		break if @userPoints > 21
-	end
-=end
 	break if userInput == "Stay"
 end
 
@@ -494,6 +578,12 @@ end
 	else 
 		nil
 	end
+=end
+
+
+
+
+
 
 =begin
 firstCard = @userCards[0][2]
@@ -515,53 +605,3 @@ puts #remove when you want
 
 
 #BEGAN COMPARISON TEXT 
-=begin
-if @cpuOpponentPoints == 21 # Computer has Blackjack
-		slowText("Computer has Blackjack...")
-		sleep 2.5
-		puts "You lose, Good Game."
-		showCPUOpponentCards
-		showUserCards
-		abort
-
-
-if @cpuOpponentPoints == 21 && @userPoints == 21
-	# do nil so user can see? Don't abort??
-nil
-
-
-elsif @cpuOpponentPoints > 21 
-		slowText("Computer has bust!")
-		sleep 2.5
-		puts "Congratulations, you win!"
-		showCPUOpponentCards
-		showUserCards
-		abort
-
-
-
-
-
-
-
-
-=end
-#END COMPARISON TEXT
-
-
-
-
-
-
-=begin
-print "What are you going to go?: "
-userChoice = gets.chomp
-
-if userChoice = 
-=end
-
-
-# use case when menu?
-# when userInput
-# case "A","B"
-# end
