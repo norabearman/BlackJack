@@ -229,12 +229,12 @@ puts
 			@cpuOpponentPoints += dealtCard[3]
 			@cpuOpponentCards << dealtCard
 			@deck.shift
-			redo
+			next
 		else @cpuOpponentPoints + dealtCard[2] <= 21
 			@cpuOpponentPoints += dealtCard[2]
 			@cpuOpponentCards << dealtCard
 			@deck.shift
-			redo
+			next
 		end
 	end
 
@@ -244,12 +244,18 @@ puts
 
 end
 
+puts "Computer's first two cards add up to " + @cpuOpponentPoints.to_s # Remove when neccesary 8/18/14 10:10AM
+
 
 2.times do
 	dealtCard = @deck.first
 	
 	if dealtCard.size == 4
-		showUserCards
+		
+		unless @userCards[0] == nil
+			showUserCards
+		end
+
 		puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
 		print "What value would you like to make it? Enter in 1 or 11: "
 		userInput = gets.chomp
@@ -267,74 +273,77 @@ end
 		else
 			dealtCard.delete(1)
 		end
+
 	end
 
 	@userPoints += dealtCard[2]
 	@userCards << dealtCard
 	@deck.shift
 
- 
- 	if @cpuOpponentPoints == 21 && @userPoints  == 21		
- 		slowText(@blackJack)
-		sleep 2.5
-		puts "It's a tie. How rare is this!!"
-		showCPUOpponentCards
-		showUserCards
-		abort
-	end
+end
 
-	if @cpuOpponentPoints == 21 && @userPoints != 21
-		slowText(@blackJack)
-		sleep 2.5
-		puts "You lose! Good Game."
-		showCPUOpponentCards
-		showUserCards
-		abort
-	end
+if @cpuOpponentPoints == 21 && @userPoints == 21		
+	puts "It's a tie. How rare is this!!"
+	showCPUOpponentCards
+	showUserCards
+	abort
+end
 
-	if @userPoints == 21 && @cpuOpponentPoints != 21
-		slowText(@blackJack)
-		sleep 2.5
-		puts "Congratulations! You win!"
-		showCPUOpponentCards
-		showUserCards
-		abort
+if @cpuOpponentPoints == 21 && @userPoints != 21
+	puts "You lose! Good Game."
+	showCPUOpponentCards
+	showUserCards
+	abort
+end
+
+if @userPoints == 21 && @cpuOpponentPoints != 21
+	puts "Congratulations! You win!"
+	showCPUOpponentCards
+	showUserCards
+	abort
+end
+
+puts "Your first two cards add up to " + @userPoints.to_s # Remove when necessary 8/16/14 11:25 PM
+
+
+loop do
+
+	1.times do
+
+		if @cpuOpponentPoints == 21
+			break
+		elsif @cpuOpponentPoints >= 17 # Stop hitting equal or over 17
+			break
+		elsif @cpuOpponentPoints > 21 
+			break
+		else 
+			nil
+		end
+
+
+		dealtCard = @deck.first
+
+		 if dealtCard.size == 4
+			if @cpuOpponentPoints + dealtCard[3] > 21 
+				dealtCard.delete(11)
+				@cpuOpponentPoints += dealtCard[2]
+			else
+				dealtCard.delete(1)
+				@cpuOpponentPoints += dealtCard[3]
+			end
+		end
+
+		@cpuOpponentPoints += dealtCard[2]
+		@cpuOpponentCards << dealtCard
+		@deck.shift
+
 	end
 
 end
-
-
-
-
-
-
 
 
 
 =begin
-2.times do
-	dealtCard = @deck.first
-
-	if dealtCard.size == 4
-		if @cpuOpponentPoints + dealtCard[3] > 21 
-			dealtCard.delete(11)
-			@cpuOpponentPoints += dealtCard[2]
-		elsif @cpuOpponentPoints + dealtCard[2] > 21
-			dealtCard.delete(1)
-			@cpuOpponentPoints += dealtCard[3]
-		else 
-			nil
-		end
-	end
-
-	@cpuOpponentPoints += dealtCard[2]
-	@cpuOpponentCards << dealtCard
-	@deck.shift
-
-	if @cpuOpponentPoints == 21
-		break
-	end
-end
 
 loop do
 	dealtCard = @deck.first
@@ -369,84 +378,8 @@ end
 
 
 
-2.times do
-	dealtCard = @deck.first
 
-	if @userPoints == 21 && @cpuOpponentPoints == 21 # Not so Solid Blackjack, tie
-		slowText(@blackJack)
-		sleep 2.5
-		puts "It's a tie. How rare is this!!"
-		showCPUOpponentCards
-		showUserCards
-		abort
-	elsif @userPoints > 21 && @cpuOpponentPoints > 21 # 21, both busted, Draw
-		slowText("Bust!")
-		sleep 2.5
-		puts "It's a draw. How rare is this!!" 
-		showCPUOpponentCards
-		showUserCards
-		abort
-	elsif @userPoints == 21 && @cpuOpponentPoints < 21  || @userPoints == 21 && @cpuOpponentPoints > 21# Solid Blackjack, User wins
-		slowText(@blackJack)
-		sleep 2.5
-		puts "Congratulations, You win!"
-		showCPUOpponentCards
-		showUserCards
-		abort
-	elsif @cpuOpponentPoints == 21 && @userPoints < 21 || @cpuOpponentPoints == 21 && @userPoints > 21 # Computer got Blackjack frst
-		slowText(@blackJack)
-		sleep 2.5
-		puts "You lose, Good Game!" 
-		showCPUOpponentCards
-		showUserCards
-		abort
-	elsif @userPoints < 21 and @cpuOpponentPoints < 21 && @userPoints > @cpuOpponentPoints # user wins, more points than CPU < 21
-		slowText(@blackJack)
-		sleep 2.5
-		puts "You lose, Good Game!" 
-		showCPUOpponentCards
-		showUserCards
-		abort
-	elsif @cpuOpponentPoints < 21 and @userPoints < 21 && @cpuOpponentPoints > @userPoints # CPU wins, more points than user < 21
-		slowText(@blackJack)
-		sleep 2.5
-		puts "You lose, Good Game!" 
-		showCPUOpponentCards
-		showUserCards
-		abort
-	else 
-		nil
-	end
-
-
-	if dealtCard.size == 4
-		showUserCards
-		puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
-		print "What value would you like to make it? Enter in 1 or 11: "
-		userInput = gets.chomp
-		puts
-
-		until userInput == "1" || userInput == "11"
-			puts
-			puts "Error: Unknown Command"
-			print "Please enter 1 or 11: "
-			userInput = gets.chomp
-		end
-
-		if userInput == "1"
-			dealtCard.delete(11) 
-		else
-			dealtCard.delete(1)
-		end
-
-	end
-
-	break if @userPoints == 21
-	@userPoints += dealtCard[2]
-	@userCards << dealtCard
-	@deck.shift
-end	
-showUserCards
+	
 
 
 loop do
@@ -580,25 +513,6 @@ end
 	else 
 		nil
 	end
-=end
-
-
-
-
-
-
-=begin
-firstCard = @userCards[0][2]
-secondCard = @userCards[1][2]
-@userPoints +=  firstCard + secondCard
-=end
-
-=begin
-puts @userCards.inspect #remove when neccesary
-puts "Your points is " + @userPoints.to_s 
-
-puts #remove
-puts #remove when you want 
 =end
 
 

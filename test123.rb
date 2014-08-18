@@ -246,13 +246,14 @@ puts
 	@deck.shift
 
 end
-puts @cpuOpponentPoints
+puts "Computer's first two cards add up to " + @cpuOpponentPoints.to_s
 
 2.times do
 	dealtCard = @deck.first
 	
 	if dealtCard.size == 4
-		unless @userCards == nil
+		
+		unless @userCards[0] == nil
 			showUserCards
 		end
 
@@ -280,42 +281,30 @@ puts @cpuOpponentPoints
 	@userCards << dealtCard
 	@deck.shift
 
-	if @cpuOpponentPoints == 21 && @userPoints == 21		
-		puts "It's a tie. How rare is this!!"
-		showCPUOpponentCards
-		showUserCards
-		abort
-	end
-
-	if @cpuOpponentPoints == 21 && @userPoints != 21
-		puts "You lose! Good Game."
-		showCPUOpponentCards
-		showUserCards
-		abort
-	end
-
-	if @userPoints == 21 && @cpuOpponentPoints != 21
-		puts "Congratulations! You win!"
-		showCPUOpponentCards
-		showUserCards
-		abort
-	end
-
 end
 
-puts @userPoints # Remove when necessary 8/16/14 11:25 PM
-
-# Testing if program works fine
-if @userPoints == @cpuOpponentPoints
-	puts "It's a draw, how rare is that!!!"
-elsif @userPoints > @cpuOpponentPoints
-	puts "You win!"
-else @cpuOpponentPoints > @userPoints
-	puts "You lose!"
+if @cpuOpponentPoints == 21 && @userPoints == 21		
+	puts "It's a tie. How rare is this!!"
+	showCPUOpponentCards
+	showUserCards
+	abort
 end
 
+if @cpuOpponentPoints == 21 && @userPoints != 21
+	puts "You lose! Good Game."
+	showCPUOpponentCards
+	showUserCards
+	abort
+end
 
+if @userPoints == 21 && @cpuOpponentPoints != 21
+	puts "Congratulations! You win!"
+	showCPUOpponentCards
+	showUserCards
+	abort
+end
 
+puts "Your first two cards add up to " + @userPoints.to_s # Remove when necessary 8/16/14 11:25 PM
 
 
 
@@ -543,6 +532,21 @@ loop do
 end
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	if @userPoints == 21 && @cpuOpponentPoints == 21 # Not so Solid Blackjack, tie
 		slowText(@blackJack)
 		sleep 2.5
@@ -589,26 +593,6 @@ end
 		nil
 	end
 =end
-
-
-
-
-
-
-=begin
-firstCard = @userCards[0][2]
-secondCard = @userCards[1][2]
-@userPoints +=  firstCard + secondCard
-=end
-
-=begin
-puts @userCards.inspect #remove when neccesary
-puts "Your points is " + @userPoints.to_s 
-
-puts #remove
-puts #remove when you want 
-=end
-
 
 
 
