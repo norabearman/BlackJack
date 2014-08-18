@@ -229,10 +229,12 @@ puts
 			@cpuOpponentPoints += dealtCard[3]
 			@cpuOpponentCards << dealtCard
 			@deck.shift
+			redo
 		else @cpuOpponentPoints + dealtCard[2] <= 21
 			@cpuOpponentPoints += dealtCard[2]
 			@cpuOpponentCards << dealtCard
 			@deck.shift
+			redo
 		end
 	end
 
