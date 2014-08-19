@@ -26,7 +26,7 @@
 
 
 		# Method that outputs information text
-		def howToPlayBlackJack
+		def blackJackCommands
 			@understand = false
 			help = %(
      	 ------------------------------ 			
@@ -200,7 +200,7 @@ when "Yes"
 	puts
 when "No"
 	puts
-	howToPlayBlackJack
+	blackJackCommands
 	slowText("Progress 100%")
 	puts
 end
@@ -259,18 +259,23 @@ end
 		userInput = gets.chomp
 		puts "#{puts}"
 
-		case userInput
-		when "Show"
-			showUserCards
-		when "Help"
-			howToPlayBlackJack
-		end
-
 		until userInput == "1" || userInput == "11"
-			puts "Error: Unknown Command"
-			print "Please enter 1 or 11: "
-			userInput = gets.chomp
-			puts
+			if userInput == "Show"
+				showUserCards
+				print "Please enter 1 or 11: "
+				userInput = gets.chomp
+				puts
+			elsif userInput == "Help" 
+ 				blackJackCommands
+				print "Please enter 1 or 11: "
+				userInput = gets.chomp
+				puts
+			else
+				puts "Error: Unknown Command"
+				print "Please enter 1 or 11: "
+				userInput = gets.chomp
+				puts
+			end
 		end
 
 		if userInput == "1"
@@ -342,10 +347,10 @@ loop do
 			if dealtCard.size == 4
 				if @cpuOpponentPoints + dealtCard[3] > 21 
 					dealtCard.delete(11)
-					@cpuOpponentPoints += dealtCard[2]
+					# @cpuOpponentPoints += dealtCard[2]
 				else
 					dealtCard.delete(1)
-					@cpuOpponentPoints += dealtCard[3]
+					# @cpuOpponentPoints += dealtCard[3]
 				end
 			end
 
@@ -358,18 +363,19 @@ loop do
 
 	1.times do
 		print "What would you like to do?: "
-		@userInput = gets.chomp 
+		userInput = gets.chomp 
+		@loopBreaker = userInput
 		puts
 
-		until @userInput == "Hit" || @userInput == "Stay" || @userInput == "Show"
+		until userInput == "Hit" || userInput == "Stay" || userInput == "Show" || userInput == "Help"
 			puts "Error: Unknown Command"
 			print "Please enter \"Hit\" or \"Stay\": "
-			@userInput = gets.chomp
+			userInput = gets.chomp
 			puts 
 		end 
 
-		case @userInput
-		when "Hit"
+		case
+		when userInput == "Hit"
 
 			dealtCard = @deck.first
 
@@ -377,17 +383,17 @@ loop do
 				puts
 				puts "You was dealt an #{dealtCard[0]} of #{dealtCard[1]}!"
 				print "What value would you like to make it? Enter in 1 or 11: "
-				@userInput = gets.chomp
+				userInput = gets.chomp
 				puts
 
-				until @userInput == "1" || @userInput == "11"
+				until userInput == "1" || userInput == "11"
 					puts "Error: Unknown Command"
 					print "Please enter \"1\" or \"11\": "
 					@userInput = gets.chomp
 					puts
 				end
 
-				if @userInput == "1"
+				if userInput == "1"
 					puts
 					dealtCard.delete(11) 
 				else
@@ -412,13 +418,13 @@ loop do
 			puts
 			@deck.shift
 
-		when "Show"
+		when userInput == "Show"
 			showUserCards
-		when "Help"
-			howToPlayBlackJack
+		when userInput == "Help"
+			blackJackCommands
 		end
 	end
-	break if @userInput == "Stay"
+	break if @loopBreaker == "Stay"
 end
 
 =begin
