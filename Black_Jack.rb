@@ -30,11 +30,12 @@
 			@understand = false
 			help = %(
      	 ------------------------------ 			
-	|  --------------------------  | 
-	| | For Hit: Type in  "Hit"  | |
-	| | For Stay: Type in "Stay" | |
-	| | For Help: Type in "Help" | | 
-	|  --------------------------  | 
+	|  -------------------------- | 
+	| | To Hit: Type in  "Hit"  | |
+	| | To Stay: Type in "Stay" | |
+	| | For Help: Type in "Help"| |
+	| |To See cards: Type "Show"| |
+	|  -------------------------- | 
 	 ------------------------------
  		)
 		puts help
@@ -50,10 +51,10 @@
 		end
 
 		def showUserCards # Displays user cards respectively
-			lengthUserPoints = "You:#{@userPoints}".length
+			lengthOfUserPoints = "You:#{@userPoints}".length
 			puts "Your cards:"
 			puts " ------------------------ " #IDEA!: Below put user points, make box beneath(under)
-			puts "|" + "You:#{@userPoints}".rjust(15) + "|".rjust(16 - lengthUserPoints)
+			puts "|" + "You:#{@userPoints}".rjust(15) + "|".rjust(16 - lengthOfUserPoints)
 			puts " ------------------------ "
 			@userCards.each do |card|
 				lengthOfCardName = "#{card[0]} of #{card[1]}".length
@@ -63,7 +64,7 @@
 			puts
 		end
 
-		def showCPUOpponentCards # Use when game is over!!!! New Method
+		def showCPUOpponentCards
 			lengthOfCPUPoints = "CPU: #{@cpuOpponentPoints}".length
 			puts "Computer's cards:"
 			puts " ------------------------ " #IDEA!: Below put user points, make box beneath(under)
@@ -82,14 +83,15 @@
 #=================================== METHODS =====================================# 
 #=================================================================================#
 
-# Makes deck
-card_type = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
-card_suit = ["Hearts", "Spades", "Clubs", "Diamonds"]
+# Deck elements, cardType, cardSuit, 
+cardLabel = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
+cardSuit = ["Hearts", "Spades", "Clubs", "Diamonds"]
 @deck = []
 
-card_type.each do |type|
-	card_suit.each do |suit|
-			@deck.push([type, suit])
+# Makes deck
+cardLabel.each do |label|
+	cardSuit.each do |suit|
+		@deck.push([label, suit])
 	end
 end
 
@@ -247,6 +249,7 @@ end
 
 
 2.times do
+	
 	dealtCard = @deck.first
 	
 	if dealtCard.size == 4
@@ -255,6 +258,13 @@ end
 		print "What value would you like to make it? Enter in 1 or 11: "
 		userInput = gets.chomp
 		puts "#{puts}"
+
+		case userInput
+		when "Show"
+			showUserCards
+		when "Help"
+			howToPlayBlackJack
+		end
 
 		until userInput == "1" || userInput == "11"
 			puts "Error: Unknown Command"
@@ -283,6 +293,7 @@ end
 	@deck.shift
 
 end
+
 puts
 puts "Your Points: #{@userPoints}"
 puts "#{puts}"
@@ -314,10 +325,8 @@ end
 
 
 loop do
-
 	unless @cpuOpponentPoints >= 17 then
 		1.times do
-
 			if @cpuOpponentPoints == 21
 				break
 			elsif @cpuOpponentPoints >= 17 
@@ -327,7 +336,6 @@ loop do
 			else 
 				nil
 			end
-
 
 			dealtCard = @deck.first
 
@@ -349,23 +357,24 @@ loop do
 
 
 	1.times do
-
 		print "What would you like to do?: "
 		@userInput = gets.chomp 
 		puts
 
-		until @userInput == "Hit" || @userInput == "Stay"
+		until @userInput == "Hit" || @userInput == "Stay" || @userInput == "Show"
 			puts "Error: Unknown Command"
 			print "Please enter \"Hit\" or \"Stay\": "
 			@userInput = gets.chomp
 			puts 
 		end 
 
-		if @userInput == "Hit"
+		case @userInput
+		when "Hit"
+
 			dealtCard = @deck.first
 
 			if dealtCard.size == 4
-				puts # experimental 9:49PM 8/18/14
+				puts
 				puts "You was dealt an #{dealtCard[0]} of #{dealtCard[1]}!"
 				print "What value would you like to make it? Enter in 1 or 11: "
 				@userInput = gets.chomp
@@ -393,26 +402,24 @@ loop do
 					puts
 					puts "You was dealt a #{dealtCard[0]}!"
 				end
-				
 			end
 
 			@userPoints += dealtCard[2]		
 			@userCards << dealtCard
-				puts
-				puts "Your Points: #{@userPoints}"
-				puts
-				puts
+			puts
+			puts "Your Points: #{@userPoints}"
+			puts
+			puts
 			@deck.shift
-			# showUserCards JULIUS! MAKE THIS A COMMAND WHEN USER_INPUT's !!!
 
+		when "Show"
+			showUserCards
+		when "Help"
+			howToPlayBlackJack
 		end
-
 	end
-
 	break if @userInput == "Stay"
 end
-
-
 
 =begin
 
