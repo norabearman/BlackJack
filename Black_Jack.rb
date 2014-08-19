@@ -31,9 +31,9 @@
 			help = %(
      	 ------------------------------ 			
 	|  --------------------------  | 
-	| | For Hit: Type in 'Hit'   | |
-	| | For Stay: Type in 'Stay' | |
-	| | For Help: Type in 'Help' | | 
+	| | For Hit: Type in  "Hit"  | |
+	| | For Stay: Type in "Stay" | |
+	| | For Help: Type in "Help" | | 
 	|  --------------------------  | 
 	 ------------------------------
  		)
@@ -175,11 +175,12 @@ when  "Yes"
 when "No"
 	puts
 	slowText("Have a good one!")
+	puts
 	abort
 end
 
 
-puts "Do you know how to play Blackjack?"
+slowText("Do you know how to play Blackjack?")
 print "Please enter Yes or No: "
 userInput = gets.chomp
 
@@ -204,7 +205,7 @@ end
 	
 puts "Have fun and good luck!"
 slowText("Dealing cards.......")
-puts
+puts "#{puts} #{puts}"
 
 
 
@@ -249,15 +250,11 @@ end
 	dealtCard = @deck.first
 	
 	if dealtCard.size == 4
-		
-		unless @userCards[0] == nil
-			showUserCards
-		end
 
-		puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
+		puts "You was dealt an #{dealtCard[0]} of #{dealtCard[1]}!"
 		print "What value would you like to make it? Enter in 1 or 11: "
 		userInput = gets.chomp
-		puts
+		puts "#{puts}"
 
 		until userInput == "1" || userInput == "11"
 			puts "Error: Unknown Command"
@@ -267,11 +264,18 @@ end
 		end
 
 		if userInput == "1"
+			puts
 			dealtCard.delete(11) 
 		else
+			puts
 			dealtCard.delete(1)
 		end
-
+	else
+		if dealtCard[0] == "8"
+			puts "You was dealt an #{dealtCard[0]}!"
+		else
+			puts "You was dealt a #{dealtCard[0]}!"
+		end
 	end
 
 	@userPoints += dealtCard[2]
@@ -279,9 +283,13 @@ end
 	@deck.shift
 
 end
+puts
+puts "Your Points: #{@userPoints}"
+puts "#{puts}"
 
 if @cpuOpponentPoints == 21 && @userPoints == 21		
 	puts "It's a tie. How rare is this!!"
+	puts
 	showCPUOpponentCards
 	showUserCards
 	abort
@@ -289,6 +297,7 @@ end
 
 if @cpuOpponentPoints == 21 && @userPoints != 21
 	puts "You lose! Good Game."
+	puts
 	showCPUOpponentCards
 	showUserCards
 	abort
@@ -296,6 +305,7 @@ end
 
 if @userPoints == 21 && @cpuOpponentPoints != 21
 	puts "Congratulations! You win!"
+	puts
 	showCPUOpponentCards
 	showUserCards
 	abort
@@ -348,16 +358,18 @@ loop do
 			puts "Error: Unknown Command"
 			print "Please enter \"Hit\" or \"Stay\": "
 			@userInput = gets.chomp
-			puts
+			puts 
 		end 
 
 		if @userInput == "Hit"
 			dealtCard = @deck.first
 
 			if dealtCard.size == 4
-				puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
+				puts # experimental 9:49PM 8/18/14
+				puts "You was dealt an #{dealtCard[0]} of #{dealtCard[1]}!"
 				print "What value would you like to make it? Enter in 1 or 11: "
 				@userInput = gets.chomp
+				puts
 
 				until @userInput == "1" || @userInput == "11"
 					puts "Error: Unknown Command"
@@ -367,14 +379,29 @@ loop do
 				end
 
 				if @userInput == "1"
+					puts
 					dealtCard.delete(11) 
 				else
+					puts
 					dealtCard.delete(1)
 				end
+			else
+				if dealtCard[0] == "8"
+					puts
+					puts "You was dealt an #{dealtCard[0]}!"
+				else
+					puts
+					puts "You was dealt a #{dealtCard[0]}!"
+				end
+				
 			end
 
 			@userPoints += dealtCard[2]		
 			@userCards << dealtCard
+				puts
+				puts "Your Points: #{@userPoints}"
+				puts
+				puts
 			@deck.shift
 			# showUserCards JULIUS! MAKE THIS A COMMAND WHEN USER_INPUT's !!!
 
