@@ -244,8 +244,6 @@ puts
 
 end
 
-puts "Computer's first two cards add up to " + @cpuOpponentPoints.to_s # Remove when neccesary 8/18/14 10:10AM
-
 
 2.times do
 	dealtCard = @deck.first
@@ -262,10 +260,10 @@ puts "Computer's first two cards add up to " + @cpuOpponentPoints.to_s # Remove 
 		puts
 
 		until userInput == "1" || userInput == "11"
-			puts
 			puts "Error: Unknown Command"
 			print "Please enter 1 or 11: "
 			userInput = gets.chomp
+			puts
 		end
 
 		if userInput == "1"
@@ -303,42 +301,88 @@ if @userPoints == 21 && @cpuOpponentPoints != 21
 	abort
 end
 
-puts "Your first two cards add up to " + @userPoints.to_s # Remove when necessary 8/16/14 11:25 PM
 
 
 loop do
 
+	unless @cpuOpponentPoints >= 17 then
+		1.times do
+
+			if @cpuOpponentPoints == 21
+				break
+			elsif @cpuOpponentPoints >= 17 
+				break
+			elsif @cpuOpponentPoints > 21 
+				break
+			else 
+				nil
+			end
+
+
+			dealtCard = @deck.first
+
+			if dealtCard.size == 4
+				if @cpuOpponentPoints + dealtCard[3] > 21 
+					dealtCard.delete(11)
+					@cpuOpponentPoints += dealtCard[2]
+				else
+					dealtCard.delete(1)
+					@cpuOpponentPoints += dealtCard[3]
+				end
+			end
+
+			@cpuOpponentPoints += dealtCard[2]
+			@cpuOpponentCards << dealtCard
+			@deck.shift
+		end
+	end
+
+
 	1.times do
 
-		if @cpuOpponentPoints == 21
-			break
-		elsif @cpuOpponentPoints >= 17 # Stop hitting equal or over 17
-			break
-		elsif @cpuOpponentPoints > 21 
-			break
-		else 
-			nil
-		end
+		print "What would you like to do?: "
+		@userInput = gets.chomp 
+		puts
 
+		until @userInput == "Hit" || @userInput == "Stay"
+			puts "Error: Unknown Command"
+			print "Please enter \"Hit\" or \"Stay\": "
+			@userInput = gets.chomp
+			puts
+		end 
 
-		dealtCard = @deck.first
+		if @userInput == "Hit"
+			dealtCard = @deck.first
 
-		 if dealtCard.size == 4
-			if @cpuOpponentPoints + dealtCard[3] > 21 
-				dealtCard.delete(11)
-				@cpuOpponentPoints += dealtCard[2]
-			else
-				dealtCard.delete(1)
-				@cpuOpponentPoints += dealtCard[3]
+			if dealtCard.size == 4
+				puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
+				print "What value would you like to make it? Enter in 1 or 11: "
+				@userInput = gets.chomp
+
+				until @userInput == "1" || @userInput == "11"
+					puts "Error: Unknown Command"
+					print "Please enter \"1\" or \"11\": "
+					@userInput = gets.chomp
+					puts
+				end
+
+				if @userInput == "1"
+					dealtCard.delete(11) 
+				else
+					dealtCard.delete(1)
+				end
 			end
-		end
 
-		@cpuOpponentPoints += dealtCard[2]
-		@cpuOpponentCards << dealtCard
-		@deck.shift
+			@userPoints += dealtCard[2]		
+			@userCards << dealtCard
+			@deck.shift
+			# showUserCards JULIUS! MAKE THIS A COMMAND WHEN USER_INPUT's !!!
+
+		end
 
 	end
 
+	break if @userInput == "Stay"
 end
 
 
@@ -431,41 +475,7 @@ loop do
 		nil
 	end
 
-	print "What would you like to do?: "
-	userInput = gets.chomp 
-	puts
-
-	until userInput == "Hit" || userInput == "Stay"
-		puts "Error: Unknown Command"
-		print "Please enter \"Hit\" or \"Stay\": "
-		userInput = gets.chomp
-		puts
-	end 
-
-	if userInput == "Hit"
-		dealtCard = @deck.first
-
-		if dealtCard.size == 4
-			puts "You've received an #{dealtCard[0]} of #{dealtCard[1]}"
-			print "What value would you like to make it? Enter in 1 or 11: "
-			userInput = gets.chomp
-			if userInput == "1"
-				dealtCard.delete(11) 
-			else
-				dealtCard.delete(1)
-			end
-
-		end
-
-		@userPoints += dealtCard[2]		
-		@userCards << dealtCard
-		@deck.shift
-		showUserCards
-
-	end
-
-	break if userInput == "Stay"
-end
+	
 
 
 	if @userPoints == 21 && @cpuOpponentPoints == 21 # Not so Solid Blackjack, tie
