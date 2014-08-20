@@ -1,11 +1,11 @@
-# Black Jack game by Julius Osagiede 
+# Blackjack game by Julius Osagiede 
 
 #=================================================================================#
 #=================================== METHODS =====================================# 
 #=================================== vvvvvvv =====================================#
 #=================================================================================#
 
-		# Method that slows down text by 1/20 of a second
+		# Slows down text by 1/20 of a second
 		def slowText(statement)
 			statement.each_char { |letter|
 				sleep 0.050
@@ -15,7 +15,7 @@
 		end
 		
 
-		# Method that outputs the index of each deck array object starting at 1
+		# Shows you the index of each deck array object starting at 1
 		def cardIndexes
 			@counter = 0
 			@deck.each do |card|
@@ -25,7 +25,7 @@
 		end
 
 
-		# Method that outputs information text
+		# Display commands
 		def blackJackCommands
 			@understand = false
 			help = %(
@@ -50,10 +50,11 @@
 
 		end
 
-		def showUserCards # Displays user cards respectively
+
+		def showUserCards # Displays user cards
 			lengthOfUserPoints = "You:#{@userPoints}".length
 			puts "Your cards:"
-			puts " ------------------------ " #IDEA!: Below put user points, make box beneath(under)
+			puts " ------------------------ "
 			puts "|" + "You:#{@userPoints}".rjust(15) + "|".rjust(16 - lengthOfUserPoints)
 			puts " ------------------------ "
 			@userCards.each do |card|
@@ -64,10 +65,11 @@
 			puts
 		end
 
-		def showCPUOpponentCards
+
+		def showCPUOpponentCards # Displays computer's cards
 			lengthOfCPUPoints = "CPU: #{@cpuOpponentPoints}".length
 			puts "Computer's cards:"
-			puts " ------------------------ " #IDEA!: Below put user points, make box beneath(under)
+			puts " ------------------------ " 
 			puts "|" + "CPU:#{@cpuOpponentPoints}".rjust(15) + "|".rjust(17 - lengthOfCPUPoints)
 			puts " ------------------------ "
 			@cpuOpponentCards.each do |card|
@@ -88,7 +90,7 @@ cardLabel = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "Kin
 cardSuit = ["Hearts", "Spades", "Clubs", "Diamonds"]
 @deck = []
 
-# Makes deck
+# Makes deck using deck elements
 cardLabel.each do |label|
 	cardSuit.each do |suit|
 		@deck.push([label, suit])
@@ -156,6 +158,7 @@ welcomeBlackJack = %(
 
 slowText(welcomeBlackJack)
 
+# Asks user if they would like to play a game of Blackjack
 slowText("Welcome to Blackjack, would you like to play?")
 print "Please enter Yes or No: "
 userInput = gets.chomp
@@ -182,7 +185,8 @@ when "No"
 end
 
 
-slowText("Do you know how to play Blackjack?")
+# Asks user if they're familiar with all commands available during game
+slowText("Do you know all of the commands to play Blackjack?")
 print "Please enter Yes or No: "
 userInput = gets.chomp
 
@@ -211,6 +215,7 @@ puts "#{puts} #{puts}"
 
 
 
+# Shuffles deck
 @deck.shuffle! 
 @blackJack = %(
 		  	    -----------
@@ -218,12 +223,16 @@ puts "#{puts} #{puts}"
 		  	    -----------
 			  )
 
+# Computer's points and an array(list) containing what cards it has
 @cpuOpponentPoints = 0
 @cpuOpponentCards = []
 
+# User's points and an array(list) containing what cards it has 
 @userPoints = 0
 @userCards = []
 
+
+# Computer and User are both dealt their first two cards
 2.times do
 	dealtCard = @deck.first 
 
@@ -245,10 +254,6 @@ puts "#{puts} #{puts}"
 	@cpuOpponentCards << dealtCard
 	@deck.shift
 
-end
-
-
-2.times do
 	
 	dealtCard = @deck.first
 	
@@ -336,7 +341,9 @@ end
 
 
 
+# Computer and User are dealt a card once per iteration of the loops
 loop do
+
 	unless @cpuOpponentPoints >= 17 then
 		1.times do
 			if @cpuOpponentPoints == 21
@@ -354,10 +361,8 @@ loop do
 			if dealtCard.size == 4
 				if @cpuOpponentPoints + dealtCard[3] > 21 
 					dealtCard.delete(11)
-					# @cpuOpponentPoints += dealtCard[2]
 				else
 					dealtCard.delete(1)
-					# @cpuOpponentPoints += dealtCard[3]
 				end
 			end
 
@@ -436,11 +441,14 @@ loop do
 end
 
 
+
+# Compares User points and Computer points to determine winner
 case 
 when @userPoints == 21 && @cpuOpponentPoints == 21
 	slowText(@blackJack)
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "It's a tie. How rare is this!!"
 	showCPUOpponentCards
@@ -449,6 +457,7 @@ when @userPoints == 21 && @cpuOpponentPoints == 21
 when @userPoints && @cpuOpponentPoints < 21 && @userPoints == @cpuOpponentPoints 
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "It's a tie. How rare is this!!" 
 	showCPUOpponentCards
@@ -458,6 +467,7 @@ when @userPoints == 21 && @cpuOpponentPoints != 21
 	slowText(@blackJack)
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "Congratulations, You win!"
 	showCPUOpponentCards
@@ -467,6 +477,7 @@ when @userPoints != 21 && @cpuOpponentPoints == 21
 	slowText(@blackJack)
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "You lose, Good Game!" 
 	showCPUOpponentCards
@@ -476,6 +487,7 @@ when @userPoints > 21 && @cpuOpponentPoints > 21
 	slowText("Bust!")
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "It's a draw." 
 	showCPUOpponentCards
@@ -484,6 +496,7 @@ when @userPoints > 21 && @cpuOpponentPoints > 21
 when @userPoints > 21 && @cpuOpponentPoints < 21 # USER BUST >:(
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "You lose, Good Game!" 
 	showCPUOpponentCards
@@ -493,6 +506,7 @@ when @userPoints < 21 && @cpuOpponentPoints > 21 # CPU BUST! >:)
 	slowText("Bust!")
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "Congratulations, You win!"
 	showCPUOpponentCards
@@ -501,6 +515,7 @@ when @userPoints < 21 && @cpuOpponentPoints > 21 # CPU BUST! >:)
 when @userPoints < @cpuOpponentPoints && @userPoints < 21 && @cpuOpponentPoints < 21
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "You lose, Good Game!" 
 	showCPUOpponentCards
@@ -509,6 +524,7 @@ when @userPoints < @cpuOpponentPoints && @userPoints < 21 && @cpuOpponentPoints 
 when @userPoints > @cpuOpponentPoints && @userPoints < 21 && @cpuOpponentPoints < 21
 	sleep 2.5
 	slowText("And the winner is.....")
+	puts "#{puts}"
 	sleep 2.5
 	puts "Congratulations, You win!"
 	showCPUOpponentCards
@@ -516,32 +532,3 @@ when @userPoints > @cpuOpponentPoints && @userPoints < 21 && @cpuOpponentPoints 
 	abort
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=begin
-
-
-elsif @userPoints == 21 && @cpuOpponentPoints < 21  || @userPoints == 21 && @cpuOpponentPoints > 21 # Solid Blackjack, User wins
-		
-else
-	nil
-end
-
-sleep 2
-showCPUOpponentCards
-puts "Develop an if statement for this kind of condition Julius!"
-=end
