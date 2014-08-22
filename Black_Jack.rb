@@ -254,7 +254,7 @@ puts "#{puts} #{puts}"
 	
 	if dealtCard.size == 4
 
-		puts "You was dealt an #{dealtCard[0]} of #{dealtCard[1]}!"
+		puts "You were dealt an #{dealtCard[0]} of #{dealtCard[1]}!"
 		print "What value would you like to make it? Enter in 1 or 11: "
 		puts
 		userInput = gets.chomp
@@ -288,9 +288,9 @@ puts "#{puts} #{puts}"
 		end
 	else
 		if dealtCard[0] == "8"
-			puts "You was dealt an #{dealtCard[0]}!"
+			puts "You were dealt an #{dealtCard[0]}!"
 		else
-			puts "You was dealt a #{dealtCard[0]}!"
+			puts "You were dealt a #{dealtCard[0]}!"
 		end
 	end
 
@@ -388,7 +388,7 @@ loop do
 
 			if dealtCard.size == 4
 				puts
-				puts "You was dealt an #{dealtCard[0]} of #{dealtCard[1]}!"
+				puts "You were dealt an #{dealtCard[0]} of #{dealtCard[1]}!"
 				print "What value would you like to make it? Enter in 1 or 11: "
 				userInput = gets.chomp
 				puts
@@ -410,10 +410,10 @@ loop do
 			else
 				if dealtCard[0] == "8"
 					puts
-					puts "You was dealt an #{dealtCard[0]}!"
+					puts "You were dealt an #{dealtCard[0]}!"
 				else
 					puts
-					puts "You was dealt a #{dealtCard[0]}!"
+					puts "You were dealt a #{dealtCard[0]}!"
 				end
 			end
 
